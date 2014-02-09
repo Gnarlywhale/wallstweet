@@ -33,7 +33,7 @@ db = database()
 
 all_words = []
 tweets = []
-for (text, rating) in db.get_sentiment_data(10):
+for (text, rating) in db.get_sentiment_data():
 	# Add to tweets list
 	words_filtered = [word for word in text.split() if len(word) >= 3]
 	tweets.append((words_filtered, rating))

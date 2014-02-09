@@ -18,7 +18,7 @@ class SentimentData:
 				self.words.append(word)
 		cur.close()
 		
-		self.word_features = nltk.FreqDist(words).keys()
+		self.word_features = nltk.FreqDist(self.words).keys()
 		self.training_set = nltk.classify.apply_features(self._extract_features, self.data)
 		self.classifier = nltk.NaiveBayesClassifier.train(self.training_set)
 		

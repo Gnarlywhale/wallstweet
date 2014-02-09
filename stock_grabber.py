@@ -27,11 +27,11 @@ config_json = json.load(config_file)
 stocks = config_json['stocks']
 config_file.close()
 
-while(True):
+#while(True):
 	current_time = datetime.datetime.utcnow()
 	
-	if(current_time.hour < 9 ||  current_time.minute
+	# TODO: sleep until next stock quote
 	
-	if(current_time.weekday() >= 4)
-	
-	if(datetime.datetime.today().weekday() >= 4)
+	# TODO: For each stock
+		
+		# Download latest quote and add to database

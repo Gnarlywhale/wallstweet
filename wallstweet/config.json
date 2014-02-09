@@ -1,0 +1,33 @@
+{
+  "stocks":{
+    "MSFT":{
+      "exchange":"NASDAQ",
+      "aliases":[
+        "Microsoft",
+        "Micro$oft"
+      ],
+      "twitters":[
+        "@Microsoft"
+      ]
+    },
+    "YUM":{
+      "exchange":"NYSE",
+      "aliases":[
+        "KFC",
+        "Pizza Hut",
+        "Taco Bell"
+      ]
+    }
+  },
+  "database_config":{
+    "database":"wallstweet",
+    "username":"wallstweet",
+    "password":""
+  },
+  "twitter_config":{
+    "twitter_api":"JAYp4AEX9FsrkaP95TVNsw",
+    "twitter_api_secret":"3yvQHV2CRhPkdjaspYYPzxN8ZCZLab5hu4vAOWOcZXI",
+    "twitter_access_token":"52586641-ySj9BuZAClmcZgHWnayLmzVHaVczQOd6hSYOCiQCM",
+    "twitter_access_token_secret":"KbKC3rFE1taYPzbp1rBlnzDMubLa42hAXIs6WCrOhc8VQ"
+  }
+}

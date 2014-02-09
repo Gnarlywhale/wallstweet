@@ -1,0 +1,45 @@
+import matplotlib
+matplotlib.use('Agg')
+import pylab
+from numpy.random import normal
+from mpl_toolkits.axes_grid1 import host_subplot
+import mpl_toolkits.axisartist as AA
+import matplotlib.pyplot as plt
+
+gaussian_numbers = normal(size=1000)
+print("start")
+host = host_subplot(111, axes_class=AA.Axes)
+plt.subplots_adjust(right=0.75)
+
+par1 = host.twinx()
+par2 = host.twinx()
+offset = 60
+new_fixed_axis = par2.get_grid_helper().new_fixed_axis
+par2.axis["right"] = new_fixed_axis(loc="right", axes=par2, offset=(offset, 0))
+
+par2.axis["right"].toggle(all=True)
+
+host.set_xlim(0, 2)
+host.set_ylim(0, 2)
+
+host.set_xlabel("Time Period")
+host.set_ylabel("Tweet Volume")
+
+par1.set_ylabel("Stock Price")
+par2.set_ylabel("Tweet Ranking")
+
+x = [1,2]
+y = [3,4]
+p1 = par1.plot(x, y, label = 'Stock Price', linestyle='-', color = 'green')
+p2 = par2.plot([1.2,1.8], [3.4, 3.6], label = 'Tweet Ranking',linestyle='-', color = 'red')
+p3 = host.hist(gaussian_numbers , bins = 20,color = 'blue', histtype = 'stepfilled', normed = True)
+par1.set_ylim(0, 4)
+par2.set_ylim(3, 4)
+host.legend(loc = 'upper center', bbox_to_anchor=(0.5,-0.05), fancybox = True, ncol = 3 )
+host.axis["left"].label.set_color('blue')
+par1.axis["right"].label.set_color('green')
+par2.axis["right"].label.set_color('red')
+pylab.title('Title')
+pylab.savefig('foo.png')
+print("done")
+

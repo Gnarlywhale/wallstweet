@@ -1,9 +1,9 @@
 import nltk, MySQLdb
 
 class SentimentData:
-	__init__(self):
+	def __init__(self):
 		self.db = MySQLdb.connect(host="localhost", user="wallstweet", db="wallstweet")
-		cur = db.cursor()
+		cur = self.db.cursor()
 		cur.execute("SELECT text, rating FROM sentiment_dataset")
 		
 		self.words = []
@@ -22,12 +22,12 @@ class SentimentData:
 		self.training_set = nltk.classify.apply_features(_extract_features, tweets)
 		self.classifier = nltk.NaiveBayesClassifier.train(training_set)
 		
-	_extract_features(self, string):
+	def _extract_features(self, string):
 		string_words = set(string)
 		features = {}
 		for word in self.word_features:
 			features['contains(%s)' % word] = (word in string_words)
 		return features
 		
-	classify_data(self, string):
+	def classify_data(self, string):
 		return classifier.classify(_extract_features(string))

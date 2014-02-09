@@ -42,11 +42,13 @@ class database:
 		cursor = self.db.cursor()
 		sql = "SELECT MAX(id) FROM tweet_dataset"
 		if(searchterms == None):
+			print(sql)
 			cursor.execute(sql)
 		else:
 			variables = 0;
+			converted = []
 			for term in searchterms:
-				term = "%%" + term + "%%"
+				converted.append("%" + term + "%")
 				if(variables > 0):
 					sql = sql + " OR"
 				else:
@@ -55,7 +57,10 @@ class database:
 				sql = sql + " text LIKE %s"
 				variables = variables + 1
 			
-			cursor.execute(sql, searchterms)
+			print(converted)
+			print(sql)
+			cursor.execute(sql, converted)
+			return cursor.fetchone()[0]
 			
 	def add_tweet(self, id, text, time, polarity=None):
 		cursor = self.db.cursor()

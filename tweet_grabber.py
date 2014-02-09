@@ -89,10 +89,12 @@ while True:
 			if(has_term):
 				search = search + " OR "
 			has_term = True
-			search = search + stock
+			search = search + "\"" + stock + "\""
 			
 		last_id = db.get_last_tweet_id(aliases)
-		for tweet in tweepy.Cursor(api.search, q=search, rpp=100, include_entities=True, lang="en", since_id=last_id).items():
+		print("MaxID:", last_id)
+		print("Search:", search)
+		for tweet in tweepy.Cursor(api.search, q=search, rpp=100, include_entities=True, lang="en", from_id=last_id).items():
 			if(limit <= 5):
 				status = api.rate_limit_status()['resources']['search']['/search/tweets']
 				limit = status['remaining']
@@ -107,7 +109,9 @@ while True:
 			db.add_tweet(tweet.id, text, tweet.created_at, polarity)
 			print("Added {0}! {1} {2}".format(tweet.id, tweet.created_at, text))
 			time.sleep(0.5)
-			if(tweet.id > last_id):
+			if(last_id >= tweet.id):
 				print("Reached last id! Sleeping 60s!")
-				sleep(60)
+				time.sleep(60)
 				break;
+	print("Went through all stocks! Sleeping 60s!")
+	time.sleep(60)

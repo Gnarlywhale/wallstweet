@@ -15,7 +15,7 @@ class SentimentData:
 		
 			# Add all words in the data to all of the words
 			for word in words_filtered:
-				words.append(word)
+				self.words.append(word)
 		cur.close()
 		
 		self.word_features = nltk.FreqDist(wordlist).keys()

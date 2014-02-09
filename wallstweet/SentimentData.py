@@ -11,7 +11,7 @@ class SentimentData:
 		for (text, rating) in cur.fetchall():
 			# Add to the list of data
 			words_filtered = [e.lower() for e in text.split() if len(e) >= 3]
-			data.append((words_filtered, rating))
+			self.data.append((words_filtered, rating))
 		
 			# Add all words in the data to all of the words
 			for word in words_filtered:
@@ -30,4 +30,4 @@ class SentimentData:
 		return features
 		
 	def classify_data(self, string):
-		return classifier.classify(_extract_features(string))
+		return self.classifier.classify(_extract_features(string))

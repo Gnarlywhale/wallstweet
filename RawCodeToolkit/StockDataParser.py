@@ -16,6 +16,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 '''
+
+# The StockDataParser mines google finance for the stock price data.
+# It can be initialized with the chosen stock symbol, exchange, time period (days),
+# and time interval (seconds)
 __author__ = 'Riley'
 import urllib
 import nltk, MySQLdb
@@ -23,24 +27,27 @@ import datetime
 import time
 class StockDataParser:
     def __init__(self,stock="MSFT",exchange="NASDAQ",period=30,interval=1800):
+		# Set url query
         url_string = "http://www.google.com/finance/getprices?q={0}&x={1}&p={2}d&i={3}&f=d,o,h,l,c".\
             format(stock.upper(),exchange.upper(), period, interval)
-        print("start")
+        
+		
         print(url_string)
         response = urllib.urlopen(url_string).readlines()
-        #c = csv.writer(open("{0}-prices-for-last-{1}-per.csv".format(stock,period), "w"))
-
+      
+		# Skip first 6 lines)
         offset = int(response[6][16:])
-        #baseTime = int(response[7][1:11])
 
-
+		# Initialize base Time (starting time of period)
         baseTime = 0
-        print (offset)
+        
+		# Connect to database
         db = MySQLdb.connect(host="localhost", user="wallstweet", db="wallstweet")
         cur = db.cursor()
-
+		# Set time format
         f = '%Y-%m-%d %H:%M:%S'
 
+		# Step through returned rows of price over time data
         for idx in range(7,len(response)):
             row = response[idx].split(",")
             if row[0][0] == 'a':
@@ -52,6 +59,7 @@ class StockDataParser:
 
             print(str(priceTime)+" "+str(price))
 
+			# Add data to database
             cur.execute("INSERT INTO stock_dataset  (id, time, price) VALUES (\"{0}\",\"{1}\",{2})".format(stock,str(datetime.datetime.utcfromtimestamp(priceTime)),
                         price))
 
@@ -66,5 +74,5 @@ class StockDataParser:
             #c.writerow(row)
 
         #print("done")
-
+# Set stock and other flags
 something = StockDataParser(stock="ATVI",period="7")

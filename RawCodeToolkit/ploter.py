@@ -17,6 +17,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 '''
 
+# ploter is a quick script used to graph results of data mining
+# Each plot is highly customizable and specific to its dataset, so 
+# more refinement and re-factoring should be done. 
+
 import matplotlib
 matplotlib.use('Agg')
 import pylab

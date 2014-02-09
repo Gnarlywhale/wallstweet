@@ -21,21 +21,27 @@ __author__ = 'Riley'
 import nltk, MySQLdb
 import datetime
 
+# This class is responsible for extracting the price and sentiment score data from the database.
+# It takes in optional flags for the stock symbol, exchange, time interval (minutes), 
+# startTime (datetime), and endTime (endTime). 
 class plotBot:
 	def getLines(self,stock="MSFT",exchange="NASDAQ",interval=30,startTime=None,endTime=None):
+		# If start and/or endtimes are not initialized, default to 3 days
 		if endTime == None:
 			endTime = datetime.datetime.utcnow()
 		if startTime == None:
 			startTime = endTime - datetime.timedelta(days=3)
 		print startTime
 		print endTime		
+		
+		# Open the database
 		db = MySQLdb.connect(host="localhost",user="wallstweet", db="wallstweet")
 		cur1 = db.cursor()
 		lines = list()
 		lines.append(list())
 		lines.append(list())
-		lines.append(list())
 
+		# Construct query for fetching stock prices over time and store result
 		cur1.execute("SELECT ROUND(UNIX_TIMESTAMP(time)/(%s * 60)) AS timeinterval, AVG(price), MIN(time) FROM stock_dataset WHERE time >= %s and time <= %s and id=%s GROUP BY timeinterval", [interval, str(startTime), str(endTime), stock])
 
 		stockRows = cur1.fetchall()
@@ -45,7 +51,7 @@ class plotBot:
 
 		cur2 = db.cursor()
 
-
+		# Construct query for fetching tweet sentiments over time and store result 
 		if(stock == "MSFT"):
 			company = "@Microsoft"
 		if(stock == "YUM"):
@@ -68,6 +74,8 @@ class plotBot:
 		return lines
 #fun= plotBot()
 
+
+# Debug junk code, feel free to ignore.
 lines = plotBot().getLines()
 x = list()
 y1 = list()
